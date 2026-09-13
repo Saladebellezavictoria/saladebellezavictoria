@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala de Belleza y Academia Victoria</title>
+    <!-- Fuentes elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Paleta cálida: marfil, tinta y oro envejecido — los mismos nombres de variable de siempre */
+            --color-fondo: #FBF8F1;
+            --color-texto: #221E1A;
+            --color-dorado: #BB9757;
+            --color-oscuro: #16130F;
+
+            /* Tonos complementarios, solo para matizar (misma familia de colores) */
+            --color-texto-suave: #6B6154;
+            --color-dorado-tenue: #E6D8B8;
+            --color-dorado-texto: #8C6B33;
+            --color-linea: #E7DFCC;
+            --color-blanco-calido: #FFFDF8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Textura de papel muy sutil sobre toda la página: es lo que le da el aire "hecho a mano" */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+            background-size: 160px 160px;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; word-wrap: break-word; }
+
+        ::selection { background: var(--color-dorado-tenue); color: var(--color-oscuro); }
+
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [onclick]:focus-visible {
+            outline: 2px solid var(--color-dorado);
+            outline-offset: 3px;
+        }
+
+        /* --- ENCABEZADO --- */
+        header {
+            background-color: var(--color-oscuro);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(187, 151, 87, 0.25);
+        }
+        
+        .logo {
+            color: var(--color-dorado);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        .logo::before, .logo::after {
+            content: '✦';
+            font-size: 0.6rem;
+            vertical-align: middle;
+            color: var(--color-dorado-tenue);
+            opacity: 0.85;
+        }
+        .logo::before { margin-right: 10px; }
+        .logo::after { margin-left: 10px; }
+        
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            padding-bottom: 4px;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--color-dorado);
+            transition: width 0.35s ease;
+        }
+        nav a:hover, nav a:focus-visible { color: var(--color-dorado); }
+        nav a:hover::after, nav a:focus-visible::after { width: 100%; }
+
+        /* --- PORTADA (HERO) --- */
+        .hero {
+            position: relative;
+            height: 90vh;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            text-align: center; 
+            color: white; 
+            padding: 40px;
+            overflow: hidden;
+            background-color: #050403;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            opacity: 0.45;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(10,8,5,0.35) 0%, rgba(5,4,3,0.88) 100%);
+            z-index: -1;
+        }
+
+        .hero-content-box {
+            position: relative;
+            border: 1px solid rgba(187, 151, 87, 0.45);
+            padding: 50px 70px;
+            background: rgba(12, 10, 8, 0.55);
+            backdrop-filter: blur(6px);
+            max-width: 850px;
+            width: 100%;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* Doble filete, como una tarjeta de invitación grabada a mano */
+        .hero-content-box::before {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(187, 151, 87, 0.3);
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 { 
+            font-size: 3.2rem; 
+            color: var(--color-dorado); 
+            margin-bottom: 15px; 
+            letter-spacing: 3px; 
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .hero p { 
+            font-size: 1.05rem; 
+            font-weight: 300; 
+            margin-bottom: 35px; 
+            color: #e5e0d6;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+        
+        .btn-dorado {
+            background-color: transparent; 
+            color: var(--color-dorado);
+            padding: 14px 36px; 
+            text-decoration: none; 
+            font-weight: 500; 
+            text-transform: uppercase;
+            border: 1px solid var(--color-dorado); 
+            cursor: pointer; 
+            transition: all 0.35s ease;
+            font-family: 'Montserrat', sans-serif; 
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+        .btn-dorado:hover, .btn-dorado:active { 
+            background-color: var(--color-dorado); 
+            color: var(--color-oscuro); 
+            box-shadow: 0 8px 22px rgba(187, 151, 87, 0.35);
+            transform: translateY(-2px);
+        }
+
+        /* --- BOTONES CIRCULARES EN LA PORTADA --- */
+        .hero-social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-social:hover, .btn-social:active {
+            background-color: var(--color-dorado);
+            border-color: var(--color-dorado);
+            color: var(--color-oscuro);
+            transform: translateY(-5px);
+        }
+
+        .btn-social svg { width: 22px; height: 22px; }
+
+        /* --- SECCIONES GENERALES --- */
+        /* Las dos secciones con fondo blanco fijo por HTML pasan al mismo marfil cálido de la página */
+        #nosotros, #reservas { background-color: var(--color-fondo) !important; }
+        .seccion { padding: 90px 50px; text-align: center; }
+        .seccion h2 { font-size: 2.5rem; margin-bottom: 28px; color: var(--color-oscuro); position: relative; display: inline-block; font-weight: 400; }
+        .seccion h2::after {
+            content: '❖';
+            position: absolute;
+            left: 50%;
+            bottom: -22px;
+            transform: translateX(-50%);
+            color: var(--color-dorado);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            padding: 0 20px;
+            background-image: linear-gradient(var(--color-dorado), var(--color-dorado)), linear-gradient(var(--color-dorado), var(--color-dorado));
+            background-repeat: no-repeat;
+            background-size: 16px 1px, 16px 1px;
+            background-position: left center, right center;
+        }
+        .subtitulo-seccion { color: var(--color-texto-suave); margin-bottom: 40px; font-size: 1.05rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        /* --- SOBRE NOSOTROS --- */
+        .sobre-nosotros { max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: var(--color-texto); line-height: 1.85; position: relative; }
+        .destacado { color: var(--color-dorado-texto); font-weight: 600; }
+
+        /* --- SERVICIOS: DOS BLOQUES --- */
+        .contenedor-servicios-bloques {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .bloque-servicio {
+            background: var(--color-blanco-calido);
+            padding: 40px;
+            box-shadow: 0 15px 45px rgba(22, 19, 15, 0.06);
+            border-top: 3px solid var(--color-dorado);
+            text-align: left;
+        }
+
+        .bloque-servicio h3 {
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--color-oscuro);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .bloque-servicio .descripcion-bloque {
+            text-align: center;
+            color: var(--color-texto-suave);
+            margin-bottom: 30px;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .grid-servicios-interno {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .tarjeta-servicio {
+            background: var(--color-fondo);
+            padding: 25px 20px;
+            border-radius: 4px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .tarjeta-servicio:hover, .tarjeta-servicio:active { 
+            transform: translateY(-4px) rotate(-0.3deg); 
+            border-left: 3px solid var(--color-dorado); 
+            box-shadow: 0 12px 24px rgba(22, 19, 15, 0.07); 
+        }
+        .tarjeta-servicio h4 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 15px; color: var(--color-oscuro); }
+        .tarjeta-servicio ul { list-style: none; font-size: 0.9rem; color: var(--color-texto-suave); }
+        .tarjeta-servicio ul li { margin-bottom: 9px; padding-left: 20px; position: relative; }
+        .tarjeta-servicio ul li::before { content: '◆'; position: absolute; left: 0; top: 1px; font-size: 0.55rem; color: var(--color-dorado); }
+        
+        .nota-ubicacion {
+            margin-top: 25px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--color-dorado-texto);
+            font-size: 0.9rem;
+            padding: 12px 10px 0;
+            border-top: 1px solid var(--color-linea);
+        }
+
+        /* --- GALERÍA ELEGANTE Y OPTIMIZADA (estilo álbum, con un ligero desorden a mano) --- */
+        .grid-galeria-portada { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 15px; 
+            max-width: 1100px; 
+            margin: 0 auto 40px auto; 
+        }
+        
+        .item-portada { 
+            position: relative;
+            height: 250px; 
+            border-radius: 3px; 
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(22, 19, 15, 0.14); 
+            cursor: pointer; 
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            border: 6px solid var(--color-blanco-calido);
+            outline: 1px solid var(--color-linea);
+        }
+        .item-portada:nth-child(4n+1) { transform: rotate(-1.4deg); }
+        .item-portada:nth-child(4n+2) { transform: rotate(1deg); }
+        .item-portada:nth-child(4n+3) { transform: rotate(-0.7deg); }
+        .item-portada:nth-child(4n+4) { transform: rotate(1.3deg); }
+
+        .item-portada::before {
+            content: '';
+            position: absolute;
+            top: 6px; left: 50%;
+            width: 44px; height: 15px;
+            background: linear-gradient(135deg, rgba(230, 216, 184, 0.9), rgba(187, 151, 87, 0.55));
+            transform: translateX(-50%) rotate(-3deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .item-portada img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .item-portada:hover, .item-portada:active { 
+            transform: translateY(-6px) rotate(0deg); 
+            outline-color: var(--color-dorado); 
+            box-shadow: 0 18px 32px rgba(22, 19, 15, 0.2);
+        }
+        
+        .item-portada:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Modal Galería */
+        .modal-galeria {
+            display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(8,7,5,0.96); overflow-y: auto; padding: 60px 20px; text-align: center;
+        }
+        .modal-contenido {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto;
+        }
+        .elemento-modal {
+            background: var(--color-oscuro); border-radius: 4px; overflow: hidden; height: 300px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid rgba(187, 151, 87, 0.15);
+        }
+        .elemento-modal img, .elemento-modal video { width: 100%; height: 100%; object-fit: cover; }
+        .cerrar-modal { position: fixed; top: 20px; right: 40px; color: white; font-size: 40px; font-weight: 300; cursor: pointer; z-index: 3100; transition: color 0.3s, transform 0.3s; }
+        .cerrar-modal:hover { color: var(--color-dorado); transform: rotate(90deg); }
+
+        /* --- RESERVAS Y NUEVO SISTEMA DE ACORDEÓN --- */
+        .reserva-container {
+            max-width: 750px; margin: 0 auto; background: var(--color-blanco-calido); padding: 50px;
+            box-shadow: 0 15px 45px rgba(22, 19, 15, 0.07); text-align: left;
+            border-top: 3px solid var(--color-dorado);
+        }
+        .reserva-container p { text-align: center; color: var(--color-texto-suave); margin-bottom: 40px; }
+        .form-group { margin-bottom: 30px; position: relative; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--color-texto-suave); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input { 
+            width: 100%; padding: 10px 0; border: none; border-bottom: 1px solid var(--color-linea); 
+            background-color: transparent; font-family: 'Montserrat', sans-serif; font-size: 1rem;
+            color: var(--color-oscuro); transition: all 0.3s ease; border-radius: 0; -webkit-appearance: none;
+        }
+        .form-group input:focus { outline: none; border-bottom: 2px solid var(--color-dorado); }
+
+        /* Botón del Acordeón "Ver Paquetes" */
+        .toggle-paquetes {
+            background-color: var(--color-fondo);
+            border: 1px dashed var(--color-linea);
+            padding: 15px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--color-oscuro);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .toggle-paquetes:hover, .toggle-paquetes:active {
+            border-color: var(--color-dorado);
+            background-color: var(--color-blanco-calido);
+        }
+        .toggle-paquetes .icono {
+            font-size: 1.2rem;
+            color: var(--color-dorado);
+            transition: transform 0.3s ease;
+        }
+        .toggle-paquetes.active .icono {
+            transform: rotate(180deg);
+        }
+
+        /* Contenedor de las Casillas (oculto por defecto) */
+        .contenedor-paquetes {
+            display: none; /* Oculto inicialmente */
+            margin-top: 20px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Diseño de Casillas de Selección Múltiple */
+        .checkbox-category-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--color-oscuro);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+            border-bottom: 1px solid var(--color-linea);
+            padding-bottom: 8px;
+        }
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--color-texto);
+            cursor: pointer;
+            padding: 12px 15px;
+            border: 1px solid var(--color-linea);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            background: var(--color-blanco-calido);
+            line-height: 1.4;
+        }
+        .checkbox-item:hover {
+            border-color: var(--color-dorado);
+            background: #fffaf0;
+        }
+        .checkbox-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cdbf9e;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .checkbox-item input[type="checkbox"]:checked {
+            background-color: var(--color-dorado);
+            border-color: var(--color-dorado);
+        }
+        .checkbox-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .checkbox-item strong {
+            color: var(--color-oscuro);
+            font-weight: 600;
+        }
+
+        select { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23BB9757" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right center; }
+
+        /* --- INSTAGRAM (mismo aire de álbum que la galería) --- */
+        .grid-instagram { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; max-width: 1100px; margin: 0 auto; }
+        .foto-ig { 
+            position: relative;
+            height: 240px; background-color: #0c0c0c; background-size: contain; background-repeat: no-repeat; background-position: center; 
+            display: flex; align-items: center; justify-content: center; opacity: 0.92; transition: 0.3s; border-radius: 3px;
+            box-shadow: 0 6px 16px rgba(22, 19, 15, 0.18); border: 6px solid var(--color-blanco-calido); outline: 1px solid var(--color-linea);
+        }
+        .foto-ig:nth-child(odd) { transform: rotate(-1.1deg); }
+        .foto-ig:nth-child(even) { transform: rotate(1deg); }
+        .foto-ig::before {
+            content: '';
+            position: absolute;
+            top: -7px; left: 50%;
+            width: 38px; height: 14px;
+            background: linear-gradient(135deg, rgba(230, 216, 184, 0.9), rgba(187, 151, 87, 0.55));
+            transform: translateX(-50%) rotate(2deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+            pointer-events: none;
+        }
+        .foto-ig:hover, .foto-ig:active { opacity: 1; transform: translateY(-4px) rotate(0deg); outline-color: var(--color-dorado); }
+        .mapa { max-width: 900px; margin: 0 auto; padding: 12px; background: var(--color-blanco-calido); border: 1px solid var(--color-linea); box-shadow: 0 10px 30px rgba(22, 19, 15, 0.08); }
+        .mapa iframe { width: 100%; height: 400px; border: none; filter: grayscale(25%) sepia(8%); display: block; }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--color-oscuro);
+            color: white;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            text-align: center;
+            border-top: 1px solid rgba(187, 151, 87, 0.2);
+        }
+        .footer-info p { color: #a99e8d; margin: 5px 0; font-size: 0.85rem; }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; padding: 15px 10px; }
+            .logo { font-size: 1rem; letter-spacing: 1px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 8px; }
+            nav a { font-size: 0.75rem; padding: 5px; display: inline-block; letter-spacing: 1px; }
+            
+            .hero { height: auto; min-height: 100vh; padding: 20px 15px; }
+            .hero-content-box { padding: 30px 15px; margin: 0; width: 100%; }
+            .hero-content-box::before { inset: 6px; }
+            .hero h1 { font-size: 2rem; letter-spacing: 1px; }
+            .hero p { font-size: 0.95rem; }
+            .btn-dorado { padding: 12px 20px; font-size: 0.8rem; width: 100%; text-align: center; }
+            
+            .hero-social-buttons { gap: 10px; margin-top: 25px; }
+            .btn-social { width: 45px; height: 45px; }
+            .btn-social svg { width: 18px; height: 18px; }
+            
+            .seccion { padding: 50px 15px; }
+            .seccion h2 { font-size: 1.8rem; max-width: 100%; overflow-wrap: break-word; }
+            .sobre-nosotros { font-size: 1rem; padding: 0 10px; }
+            
+            .contenedor-servicios-bloques { gap: 40px; }
+            .bloque-servicio { padding: 25px 15px; }
+            .bloque-servicio h3 { font-size: 1.6rem; }
+            .grid-servicios-interno { grid-template-columns: 1fr; gap: 15px; }
+            .tarjeta-servicio { padding: 20px 15px; }
+            
+            .grid-galeria-portada { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .item-portada { height: 160px; border-width: 4px; }
+            .item-portada:nth-child(4n+1), .item-portada:nth-child(4n+2),
+            .item-portada:nth-child(4n+3), .item-portada:nth-child(4n+4) { transform: rotate(0deg); }
+            .item-portada:hover, .item-portada:active { transform: translateY(-4px); }
+            
+            .reserva-container { padding: 25px 15px; }
+            .form-group input { font-size: 16px; }
+            
+            /* Casillas de selección en móvil: 1 columna */
+            .checkbox-grid { grid-template-columns: 1fr; gap: 10px; }
+            .checkbox-item { padding: 10px 12px; font-size: 0.85rem; }
+            
+            .grid-instagram { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .foto-ig { height: 160px; border-width: 4px; }
+            .foto-ig:nth-child(odd), .foto-ig:nth-child(even) { transform: rotate(0deg); }
+            .foto-ig:hover, .foto-ig:active { transform: translateY(-3px); }
+            .grid-instagram .foto-ig:last-child { display: block; }
+            
+            .mapa { padding: 6px; }
+            .mapa iframe { height: 250px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Sala de Belleza y Academia Victoria</div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#reservas">Reservar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PORTADA (Hero) -->
+    <section id="hero" class="hero">
+        <video autoplay muted loop playsinline class="hero-video" preload="metadata">
+            <source src="video portada.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content-box">
+            <h1>Sala de Belleza y Academia Victoria</h1>
+            <p>Centro integral en la Zona Sur de Costa Rica. Expertos en el diseño, color y salud de tu cabello, y formación técnica profesional.</p>
+            
+            <a href="https://wa.me/50686663281?text=¡Hola,%20Sala%20de%20Belleza%20y%20Academia%20Victoria!%20Me%20gustaría%20agendar%20una%20cita." class="btn-dorado" target="_blank">Agendar Cita</a>
+            
+            <div class="hero-social-buttons">
+                <a href="https://www.instagram.com/victoria_sala_de_belleza/" target="_blank" class="btn-social" title="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://wa.me/50686663281" target="_blank" class="btn-social" title="WhatsApp">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                </a>
+                <a href="https://maps.app.goo.gl/uPdmDWFDvGZsFoC88" target="_blank" class="btn-social" title="Ubicación">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </a>
+                <a href="tel:+50686663281" class="btn-social" title="Llamar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </a>
+                <a href="https://www.tiktok.com/@academia.de.belle66" target="_blank" class="btn-social" title="TikTok">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+                </a>
+                <a href="https://www.facebook.com/ana.cedeno.733" target="_blank" class="btn-social" title="Facebook">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="seccion" style="background-color: white;">
+        <h2>Nuestra Esencia</h2>
+        <p class="sobre-nosotros">En <span class="destacado">Sala de Belleza y Academia Victoria</span>, nuestra misión es resaltar la belleza que ya posees y formar a los futuros profesionales del sector. Nuestra fundadora y equipo cuentan con certificación profesional del <span class="destacado">Instituto Nacional de Aprendizaje (INA)</span>, garantizando que cada técnica química, corte o tratamiento se realice bajo los más estrictos estándares de calidad y cuidado. Tu cabello está en manos expertas.</p>
+    </section>
+
+    <!-- SERVICIOS: DOS BLOQUES SEPARADOS -->
+    <section id="servicios" class="seccion">
+        <h2>Nuestros Servicios</h2>
+        <p class="subtitulo-seccion">Descubre nuestras dos unidades de negocio diseñadas para consentirte o formarte profesionalmente.</p>
+        
+        <div class="contenedor-servicios-bloques">
+            
+            <!-- BLOQUE 1: SALA DE BELLEZA -->
+            <div class="bloque-servicio">
+                <h3>Sala de Belleza Victoria</h3>
+                <p class="descripcion-bloque">Atención al cliente final para procedimientos estéticos.</p>
+                
+                <div class="grid-servicios-interno">
+                    <div class="tarjeta-servicio">
+                        <h4>Colorimetría Integral</h4>
+                        <ul>
+                            <li>Highlights, Balayage y Morenas iluminadas</li>
+                            <li>Tonos específicos (avellanas, blancos)</li>
+                            <li>Cubrimiento y transición de canas a rubios</li>
+                            <li>Transformación de color completa</li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta-servicio">
+                        <h4>Tratamientos y Alisados</h4>
+                        <ul>
+                            <li>Aliset y Keratina</li>
+                            <li>Nanoplastías y Bioplastías</li>
+                            <li>Hidrataciones intensivas</li>
+                            <li>Laminados capilares y Bótox capilar</li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta-servicio">
+                        <h4>Cortes y Estilismo</h4>
+                        <ul>
+                            <li>Cortes modernos, clásicos y vanguardistas</li>
+                            <li>Diseños personalizados para tu rostro</li>
+                            <li>Peinados para toda ocasión (Bodas, eventos)</li>
+                            <li>Trenzados y aplicación de postizos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nota-ubicacion">
+                    📍 Zona Sur, Costa Rica. <br> Consultar dirección exacta para citas vía WhatsApp.
+                </div>
+            </div>
+
+            <!-- BLOQUE 2: ACADEMIA -->
+            <div class="bloque-servicio">
+                <h3>Academia Victoria</h3>
+                <p class="descripcion-bloque">Capacitación profesional y módulos de enseñanza técnica.</p>
+                
+                <div class="grid-servicios-interno">
+                    <div class="tarjeta-servicio">
+                        <h4>Cursos de Estilismo</h4>
+                        <ul>
+                            <li>Técnicas de corte y peinado</li>
+                            <li>Manejo de herramientas profesionales</li>
+                            <li>Asesoría de imagen</li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta-servicio">
+                        <h4>Talleres de Colorimetría</h4>
+                        <ul>
+                            <li>Teoría del color aplicada</li>
+                            <li>Mechas, balayage y tintes</li>
+                            <li>Corrección de color</li>
+                        </ul>
+                    </div>
+
+                    <div class="tarjeta-servicio">
+                        <h4>Especializaciones</h4>
+                        <ul>
+                            <li>Técnicas de alisado (Keratina, Nanoplastía)</li>
+                            <li>Tratamientos capilares avanzados</li>
+                            <li>Preparación con certificación</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="nota-ubicacion">
+                    📍 Dirección fija del local/aula de clases. <br> Ver ubicación exacta en el mapa al final de la página.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GALERÍA ELEGANTE Y OPTIMIZADA -->
+    <section id="galeria" class="seccion" style="background-color: var(--color-fondo);">
+        <h2>Nuestra Galería</h2>
+        <p class="subtitulo-seccion">Explora nuestros trabajos y transformaciones capilares.</p>
+        
+        <div class="grid-galeria-portada">
+            <div class="item-portada" onclick="abrirModalGaleria()">
+                <img src="foto2.png" alt="Trabajo de colorimetría" loading="lazy">
+            </div>
+            <div class="item-portada" onclick="abrirModalGaleria()">
+                <img src="foto4.png" alt="Alisado profesional" loading="lazy">
+            </div>
+            <div class="item-portada" onclick="abrirModalGaleria()">
+                <img src="foto7.png" alt="Corte y estilismo" loading="lazy">
+            </div>
+            <div class="item-portada" onclick="abrirModalGaleria()">
+                <img src="foto8.png" alt="Peinado elegante" loading="lazy">
+            </div>
+        </div>
+
+        <button class="btn-dorado" onclick="abrirModalGaleria()">Ver Galería Completa</button>
+    </section>
+
+    <!-- MODAL DE GALERÍA EXTENDIDA -->
+    <div id="modalGaleria" class="modal-galeria">
+        <span class="cerrar-modal" onclick="cerrarModalGaleria()">&times;</span>
+        <h2 style="color: var(--color-dorado); margin-bottom: 30px; font-family: 'Playfair Display', serif;">Portafolio de Trabajos</h2>
+        
+        <div class="modal-contenido">
+            <!-- Videos -->
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video portada.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video 9.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video1.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video2.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video3.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video4.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video5.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video6.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video7.mp4" type="video/mp4"></video></div>
+            <div class="elemento-modal"><video controls preload="metadata"><source src="video8.mp4" type="video/mp4"></video></div>
+
+            <!-- Fotos -->
+            <div class="elemento-modal"><img src="foto1.png" alt="foto1" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto2.png" alt="foto2" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto3.png" alt="foto3" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto4.png" alt="foto4" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto5.png" alt="foto5" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto6.png" alt="foto6" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto7.png" alt="foto 7" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto8.png" alt="foto8" loading="lazy"></div>
+            <div class="elemento-modal"><img src="foto9.png" alt="foto9" loading="lazy"></div>
+        </div>
+    </div>
+
+    <!-- SISTEMA DE RESERVAS CON SELECCIÓN MÚLTIPLE Y ACORDEÓN -->
+    <section id="reservas" class="seccion" style="background-color: white;">
+        <h2>Agenda tu Experiencia</h2>
+        <div class="reserva-container">
+            <p>Por favor, completa tus datos y selecciona todos los servicios o cursos de tu interés. Te contactaremos vía WhatsApp para confirmar.</p>
+            
+            <form id="formularioReserva">
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" id="nombre" required placeholder="Ej. Ana Pérez">
+                </div>
+                
+                <!-- ACORDEÓN: VER PAQUETES -->
+                <div class="form-group">
+                    <label>Servicios o Cursos de Interés</label>
+                    
+                    <!-- Botón que abre el menú -->
+                    <div class="toggle-paquetes" onclick="togglePaquetes()">
+                        <span>Ver paquetes</span>
+                        <span class="icono" id="icono-toggle">▼</span>
+                    </div>
+
+                    <!-- Contenedor oculto de checkboxes -->
+                    <div class="contenedor-paquetes" id="contenedor-paquetes">
+                        
+                        <div class="checkbox-category-title">📅 Citas en Sala de Belleza</div>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Balayage / Highlights"> Balayage / Highlights</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Transformación de Color / Tintes"> Transformación de Color / Tintes</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Cubrimiento / Transición de canas"> Cubrimiento / Transición de canas</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Alisado (Keratina / Nanoplastía)"> Alisado (Keratina / Nanoplastía)</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Botox Capilar / Laminado"> Bótox Capilar / Laminado</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Hidratación Profunda"> Hidratación Profunda</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Corte de Cabello"> Corte de Cabello</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Peinado para Evento"> Peinado para Evento</label>
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Trenzados / Postizos"> Trenzados / Postizos</label>
+                        </div>
+
+                        <div class="checkbox-category-title">🎓 Cursos en Academia</div>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-item"><input type="checkbox" name="servicios" value="Consultar por clases"> <strong>Consultar por clases</strong></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha">Fecha Deseada</label>
+                    <input type="date" id="fecha" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hora">Hora Deseada (9:00 AM - 7:00 PM)</label>
+                    <select id="hora" required disabled>
+                        <option value="">Selecciona primero tu fecha...</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-dorado" style="width: 100%; margin-top: 20px; background: var(--color-dorado); color: var(--color-oscuro);">Enviar Solicitud por WhatsApp</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="seccion" style="background-color: var(--color-fondo);">
+        <h2 style="font-family: 'Playfair Display', serif; word-break: break-word;">@victoria_sala_de_belleza</h2>
+        <p style="margin-bottom:30px; color: #666;">Síguenos en Instagram para ver nuestras últimas transformaciones.</p>
+        
+        <div class="grid-instagram">
+            <a href="https://www.instagram.com/victoria_sala_de_belleza/" target="_blank" class="foto-ig" style="background-image: url('insta1.png');"></a>
+            <a href="https://www.instagram.com/victoria_sala_de_belleza/" target="_blank" class="foto-ig" style="background-image: url('insta2.png');"></a>
+            <a href="https://www.instagram.com/victoria_sala_de_belleza/" target="_blank" class="foto-ig" style="background-image: url('insta3.png');"></a>
+            <a href="https://www.instagram.com/victoria_sala_de_belleza/" target="_blank" class="foto-ig" style="background-image: url('insta4.png');"></a>
+            <a href="https://www.instagram.com/victoria_sala_de_belleza/" target="_blank" class="foto-ig" style="background-image: url('insta5.png');"></a>
+        </div>
+
+        <h2>Ubicación de la Academia</h2>
+        
+        <!-- AVISO DE DIRECCIÓN CLARO PARA EVITAR CONFUSIÓN -->
+        <div style="text-align: center; margin-bottom: 25px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <p style="color: #1A1A1A; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px;">
+                Este mapa muestra la ubicación exacta de nuestra <strong>Academia Victoria</strong> (aulas de formación).
+            </p>
+            <p style="color: var(--color-dorado); font-weight: 700; font-size: 0.95rem; background: rgba(212, 175, 55, 0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); display: inline-block;">
+                ⚠️ La ubicación de la Sala de Belleza es diferente. <br>
+                Consulta la dirección de la Sala de Belleza preguntando directamente vía WhatsApp.
+            </p>
+        </div>
+        
+        <div class="mapa">
+            <iframe src="https://maps.google.com/maps?q=8.656253,-82.946728&hl=es&z=16&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-info">
+            <p>© 2026 Sala de Belleza y Academia Victoria. Todos los derechos reservados.</p>
+            <p>WhatsApp: 8666 3281 | Zona Sur, Costa Rica</p>
+        </div>
+    </footer>
+
+    <script>
+        // Forzar que al recargar la página siempre vuelva al inicio (arriba)
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
+
+        function abrirModalGaleria() {
+            document.getElementById('modalGaleria').style.display = 'block';
+        }
+        function cerrarModalGaleria() {
+            document.getElementById('modalGaleria').style.display = 'none';
+        }
+
+        // Lógica del Acordeón (Ver Paquetes)
+        function togglePaquetes() {
+            const contenedor = document.getElementById('contenedor-paquetes');
+            const boton = document.querySelector('.toggle-paquetes');
+            const icono = document.getElementById('icono-toggle');
+            
+            if (contenedor.style.display === 'none' || contenedor.style.display === '') {
+                contenedor.style.display = 'block';
+                boton.classList.add('active');
+                icono.textContent = '▲'; // Cambia a flecha hacia arriba
+            } else {
+                contenedor.style.display = 'none';
+                boton.classList.remove('active');
+                icono.textContent = '▼'; // Cambia a flecha hacia abajo
+            }
+        }
+
+        const inputFecha = document.getElementById('fecha');
+        const selectHora = document.getElementById('hora');
+        
+        const hoy = new Date().toISOString().split('T')[0];
+        inputFecha.setAttribute('min', hoy);
+
+        const feriadosCR = {
+            "01-01": "Año Nuevo", "04-11": "Día de Juan Santamaría", "05-01": "Día del Trabajador",
+            "07-25": "Anexión del Partido de Nicoya", "08-02": "Día de la Virgen de los Ángeles",
+            "08-15": "Día de la Madre", "09-15": "Día de la Independencia", 
+            "12-01": "Día de la Abolición del Ejército", "12-25": "Navidad"
+        };
+
+        // Horas disponibles (9:00 AM a 7:00 PM)
+        const horasDisponibles = [
+            "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", 
+            "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"
+        ];
+
+        inputFecha.addEventListener('input', function(e) {
+            const fechaSeleccionada = this.value; 
+            if (!fechaSeleccionada) {
+                selectHora.innerHTML = '<option value="">Selecciona primero tu fecha...</option>';
+                selectHora.disabled = true;
+                return;
+            }
+
+            const partes = fechaSeleccionada.split('-');
+            const anio = partes[0]; const mes = partes[1]; const dia = partes[2];
+            const fechaObj = new Date(anio, mes - 1, dia);
+            const mesDia = `${mes}-${dia}`;
+
+            if (fechaObj.getDay() === 0) {
+                alert('Apreciamos tu preferencia, pero los días domingo nos encontramos cerrados. Te invitamos a seleccionar otro día.');
+                this.value = '', selectHora.disabled = true; return;
+            }
+
+            if (feriadosCR[mesDia]) {
+                const nombreMes = fechaObj.toLocaleString('es-ES', { month: 'long' });
+                alert(`Lo sentimos, el ${dia} de ${nombreMes} estamos cerrados por ser feriado (${feriadosCR[mesDia]}).`);
+                this.value = '', selectHora.disabled = true; return;
+            }
+
+            selectHora.innerHTML = '<option value="" disabled selected>Selecciona la hora...</option>';
+            selectHora.disabled = false;
+            horasDisponibles.forEach(hora => {
+                const option = document.createElement('option');
+                option.value = hora; option.text = hora;
+                selectHora.appendChild(option);
+            });
+        });
+
+        // Lógica para recoger MÚLTIPLES opciones seleccionadas y enviarlas a WhatsApp
+        document.getElementById('formularioReserva').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            
+            // Recoger todos los checkboxes marcados
+            const checkboxes = document.querySelectorAll('input[name="servicios"]:checked');
+            let serviciosSeleccionados = [];
+            
+            checkboxes.forEach((checkbox) => {
+                serviciosSeleccionados.push(checkbox.value);
+            });
+
+            // Validar que al menos uno esté seleccionado
+            if (serviciosSeleccionados.length === 0) {
+                alert('Por favor, selecciona al menos un servicio o curso de interés tocando "Ver paquetes".');
+                return;
+            }
+
+            // Formatear la lista de servicios para el mensaje de WhatsApp
+            let serviciosTexto = serviciosSeleccionados.map(s => `\n  - ${s}`).join('');
+
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+            
+            const mensaje = `¡Hola, Sala de Belleza y Academia Victoria!\n\nEs un gusto saludarles. Me encantaría agendar un espacio.\n\nDetalles de mi solicitud:\n- Nombre: ${nombre}\n- Servicios/Cursos de interés:${serviciosTexto}\n- Fecha: ${fecha}\n- Hora Deseada: ${hora}\n\n¡Quedo a la espera de su amable confirmación! Muchas gracias.`;
+            
+            window.open(`https://wa.me/50686663281?text=${encodeURIComponent(mensaje)}`, '_blank');
+            
+            // Limpiar el formulario y resetear las horas
+            this.reset();
+            selectHora.disabled = true;
+            selectHora.innerHTML = '<option value="">Selecciona primero tu fecha...</option>';
+            
+            // Cerrar el acordeón al enviar
+            document.getElementById('contenedor-paquetes').style.display = 'none';
+            document.querySelector('.toggle-paquetes').classList.remove('active');
+            document.getElementById('icono-toggle').textContent = '▼';
+        });
+    </script>
+</body>
+</html>
